@@ -1,2 +1,2 @@
-# SPU_Generate_MD
-This project will generate .MD files to use in Obsidian 
+# SPU_Data_To_Graph
+This project will generate .MD from csv data source to use in Obsidian 
