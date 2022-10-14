@@ -23,4 +23,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file Data_To_Graph/pom.xml
+      run: mvn -B package --file Data_to_Graph/pom.xml
