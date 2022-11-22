@@ -3,26 +3,27 @@ package com.spu.data_to_graph.controller;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/**
+ * @author henrique.karmierczak
+ * @version 1.0
+ */
 @Controller
-public class AppController {
-
+public class IndexController {
 
     /**
-     *
-     * @param model
+     * @param model receive a model
      * @return index.html file
      */
     @RequestMapping("/")
     public String index(Model model){
         return "index";
     }
-
-
+    @RequestMapping("/teste")
+    public String teste(Model m){
+        return "teste";
     }
+}
 

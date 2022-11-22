@@ -1,27 +1,28 @@
 package com.spu.data_to_graph.controller;
 
-import com.spu.data_to_graph.Abstract.FileValidation;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/**
+ * Controller of the upload.html
+ */
 @Controller
-public class UploadController extends FileValidation {
-    @Override
-    public String getExtension(@NotNull String file) {
-        return super.getExtension(file);
-    }
+@RequestMapping("/upload")
+public class UploadController {
 
-    @PostMapping("/Upload")
+    /**
+     *
+     * @param file is the uploaded at the index
+     * @param redirectAttributes attributes to redirect
+     * @return to {{@link IndexController}}
+     */
+    @PostMapping
     public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
-
-        if (file.isEmpty() || !getExtension(file.getName()).toLowerCase().equals("csv")){
-            redirectAttributes.addFlashAttribute("message", "Por favor, selecione um arquivo CSV");
-            return "index";
-        }
-        return "Upload";
+        redirectAttributes.addFlashAttribute("message",file.getOriginalFilename());
+        return "redirect:/";
     }
 }
