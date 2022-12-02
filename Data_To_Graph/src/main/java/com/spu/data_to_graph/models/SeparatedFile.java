@@ -6,13 +6,21 @@ import java.util.List;
 
 public class SeparatedFile implements InterfaceSeparatedFile {
 
-    public List fileConverted;
-    public SeparatedFile(List list){
-        this.fileConverted = list;
+    private FileData fileData;
+
+    public FileData getFileData() {
+        return fileData;
+    }
+    public void setFileData(FileData fileData) {
+        this.fileData = fileData;
     }
 
-    @Override
-    public List getSeparatedFile() {
-        return this.fileConverted;
+    public SeparatedFile(List<String[]> list){
+        this.fileData = new FileData();
     }
+
+    public SeparatedFile(){
+        this.fileData = new FileData();
+    }
+
 }

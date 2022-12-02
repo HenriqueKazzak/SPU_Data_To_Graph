@@ -5,27 +5,32 @@ import com.spu.data_to_graph.classes.interfaces.InterfaceFileData;
 
 import java.util.List;
 
-public class FileData implements InterfaceFileData {
-    private List<String[]> file;
+public class FileData extends CsvReader implements InterfaceFileData{
 
-    public FileData(List<String[]> file){
-        this.file = file;
+    private CsvReader csvReader;
+    public CsvReader getCsvReader() {
+        return csvReader;
     }
+
+    public void setCsvReader(CsvReader csvReader) {
+        this.csvReader = csvReader;
+    }
+
     public FileData(){
-        this.file = null;
+        this.csvReader = new CsvReader();
     }
     @Override
     public List getRow(int index) {
-        return List.of(this.file.get(index));
+        return List.of(this.csvReader.getFileConvert().get(index));
     }
 
     @Override
     public List getColum(int index) {
-        return List.of(this.file.get(index));
+        return List.of(this.csvReader.getFileConvert().get(index));
     }
 
     @Override
-    public List getAllData(int index) {
-        return List.of(this.file.get(index));
+    public List<String[]> getAllData() {
+        return this.csvReader.getFileConvert();
     }
 }

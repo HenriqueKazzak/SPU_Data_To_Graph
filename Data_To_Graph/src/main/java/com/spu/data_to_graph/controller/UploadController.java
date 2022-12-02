@@ -2,6 +2,7 @@ package com.spu.data_to_graph.controller;
 
 import com.opencsv.exceptions.CsvException;
 import com.spu.data_to_graph.models.CsvReader;
+import com.spu.data_to_graph.models.SeparatedFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,11 +30,10 @@ public class UploadController {
     public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) throws IOException, CsvException {
         redirectAttributes.addFlashAttribute("message",file.getOriginalFilename());
 
+        SeparatedFile  separatedFile = new SeparatedFile();
+        separatedFile.getFileData().getCsvReader().convert(file.getInputStream());
+        redirectAttributes.addFlashAttribute("file",separatedFile.getFileData().getAllData());
 
-        CsvReader fileConvert = new CsvReader();
-        List<String[]> separatedFile =  fileConvert.convert(file.getInputStream());
-
-        redirectAttributes.addFlashAttribute("file",separatedFile);
 
         return "redirect:/";
     }

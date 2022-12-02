@@ -10,7 +10,7 @@ import java.io.*;
 import java.util.List;
 
 public abstract class AbstractCsvReader implements InterfaceCsvReader {
-    public List<String[]> fileConverted;
+    protected List<String[]> fileConverted;
     @Override
     public List<String[]> convert(InputStream isr) throws IOException, CsvException {
 
