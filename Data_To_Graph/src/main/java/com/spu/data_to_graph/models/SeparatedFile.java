@@ -1,10 +1,6 @@
 package com.spu.data_to_graph.models;
 
-import com.spu.data_to_graph.classes.interfaces.InterfaceSeparatedFile;
-
-import java.util.List;
-
-public class SeparatedFile implements InterfaceSeparatedFile {
+public class SeparatedFile {
 
     private FileData fileData;
 
@@ -13,10 +9,6 @@ public class SeparatedFile implements InterfaceSeparatedFile {
     }
     public void setFileData(FileData fileData) {
         this.fileData = fileData;
-    }
-
-    public SeparatedFile(List<String[]> list){
-        this.fileData = new FileData();
     }
 
     public SeparatedFile(){
