@@ -1,13 +1,20 @@
+<!-- npx tailwindcss -i styles/input.css -o ./src/main/resources/static/css/main.css     -->
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://wwww.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title th:text="${title}">Home Page</title>
     <link rel="stylesheet" th:href="@{/css/main.css}" />
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <style>
+        thead{
+            position:sticky;
+            top:0
+        }
+    </style>
 </head>
-    <body>
-        <nav class="p-3 bg-gray-50 rounded border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <body class="bg-gray-50">
+        <nav class="p-3 bg-blue-200 rounded" >
             <div class="container flex flex-wrap justify-between items-center mx-auto">
                 <a href="#" class="flex items-center">
                     <img th:src =@{/images/spu-navbar.png} class="ml-auto max-w-lg h-auto" alt="Secretaria do Patrimônio da União" />
@@ -26,25 +33,66 @@
                 </div>
             </div>
         </nav>
-        <div class="bg-gray-100">
-            <div class="flex justify-center items-center w-40">
-                <label for="dropzone-file" class="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                    <div class="flex flex-col justify-center items-center pt-5 pb-6">
-                        <svg aria-hidden="true" class="mb-3 w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Clique para fazer upload</span> ou arraste e solte o arquivo</p>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">Apenas arquivo .CSV</p>
+        <div class="bg-white flex flex-nowrap flex-wrap items-center justify-center">
+            <div class="p-8 mt-6 lg:mt-0 rounded shadow bg-gray-100 md:w-2/3">
+                <form th:action="@{/upload}"  method="post" class="p-3" enctype="multipart/form-data">
+                    <p th:text="${message}"></p>
+                    <input class="block md:w-1/3 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help"  name="file" id="file" type="file" accept=".csv">
+                    <button class="p-3 bg-sky-700 hover:bg-sky-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
+                        Carregar Arquivo
+                    </button>
+                </form>
+                <form action="#" class="bg-gray-100 rounded-lg" th:if="${file != null}" th:action="@{/save}" method="post" style="padding: 5px" th:object="${mdData}">
+                   <div class="md:flex mb-6" th:each="data : ${file[0]}">
+                        <div class="md:w-1/3">
+                                <label class="block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4"  th:text="${data}"></label>
+                            <input type="hidden" name="coluna" th:value="${data}">
+                        </div>
+
+                        <div class="md:w-1/3">
+
+                            <select th:field="*{tipoDado}" class="form-select block w-full focus:bg-white" th:id="'id'+${data}">
+                                <option value="empty">Default</option>
+                                <option value="replace_value.md" th:text="'Nome do arquivo'"></option>
+                                <option value="#replace_value" th:text="'#conteúdo_célula'"></option>
+                                <option value="# replace_value"th:text="'# conteúdo célula'"></option>
+                                <option value="## replace_value" th:text="'## conteúdo célula'"></option>
+                                <option value="### replace_value" th:text="'### conteúdo célula'"></option>
+                                <option value="[[replace_value]]" th:text="'[[conteúdo célula]]'"></option>
+                                <option value="![[replace_value]]" th:text="'![[conteúdo célula]]'"></option>
+                            </select>
+                            <p class="py-2 text-sm text-gray-600">Selecione o tipo de dado da coluna</p>
+                        </div>
                     </div>
-                    <input id="dropzone-file" type="file" class="hidden" />
-                </label>
+                    <div class="md:flex md:items-center">
+                        <div class="md:w-1/3"></div>
+                        <div class="md:w-2/3">
+                            <button class="shadow bg-yellow-700 hover:bg-yellow-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit" >
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
-
-        <div class="bg-white shadow">
-            <div class="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
-                <h1 class="text-3xl font-bold tracking-tight text-gray-900">Tabela</h1>
+        <div class="bg-white flex flex-nowrap flex-wrap items-center justify-center">
+            <div class='overflow-y-auto w-11/12 justify-center'>
+                <table th:if="${file != null}" class="table-fixed w-full block h-screen bg-zinc-50">
+                    <thead class="sticky top-0 bg-blue-200">
+                        <tr>
+                            <td scope="col" class="text-1xl font-bold tracking-tight text-gray-900" style="padding: 10px" th:each="header : ${file[0]}" th:text="${header}"></td>
+                        </tr>
+                    </thead>
+                    <tbody class="overflow-y-auto" style="padding: 10px">
+                        <tr th:each="row : ${file}">
+                            <td class="py-3 px-6" th:if="${row != file[0]}" th:each="data : ${row}" th:text="${data}"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-
     </body>
 </html>
+
+

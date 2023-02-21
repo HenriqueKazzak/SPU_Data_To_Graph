@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Data_To_Graph:war">
+    <output-path>$PROJECT_DIR$/Data_To_Graph/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>Data_To_Graph</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="Data_To_Graph-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Data_To_Graph:war exploded" />
+    </root>
+  </artifact>
+</component>
